@@ -31,10 +31,17 @@ Until then, check our CAT-O-LOG 😄😄😄😄😄
     """
 )
 
-fig = make_subplots(
-    rows = 1, cols = 4,
+fig_1 = make_subplots(
+    rows = 1, cols = 2,
     specs=[
-            [{"type": "indicator"}, {"type": "indicator"}, {"type": "indicator"}, {"type": "indicator"}],
+            [{"type": "indicator"}, {"type": "indicator"}],
+    ]
+)
+
+fig_2 = make_subplots(
+    rows = 1, cols = 2,
+    specs=[
+            [{"type": "indicator"}, {"type": "indicator"}],
     ]
 )
 DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
@@ -85,46 +92,49 @@ print(total_tnr_done)
 
 
 
-fig.add_trace(
+fig_1.add_trace(
     go.Indicator(
         mode="number",
-        value=total_cat_count ,
+        value=total_adopted ,
         title="Total Cats",
     ),
     row=1, col=1
 )
 
-fig.add_trace(
+fig_1.add_trace(
     go.Indicator(
         mode="number",
-        value=total_tnr_done,
-        title="TNR Done ",
+        value=total_adopted,
+        title="Adopted",
     ),
     row=1, col=2
 )
 
-fig.add_trace(
+fig_2.add_trace(
     go.Indicator(
         mode="number",
-        value=total_tnr_pending,
+        value=total_tnr_done,
+        title="TNR Done",
+    ),
+    row=1, col=1
+)
+
+
+fig_2.add_trace(
+    go.Indicator(
+        mode="number",
+        value=total_tnr_pending ,
         title="TNR Pending",
     ),
-    row=1, col=3
+    row=1, col=2
 )
 
 
-fig.add_trace(
-    go.Indicator(
-        mode="number",
-        value=total_adopted ,
-        title="Adopted",
-    ),
-    row=1, col=4
-)
+fig_1.update_layout(paper_bgcolor = "LightSteelBlue", autosize=True, height=300)
+st.write(fig_1, se_container_width=True)
 
-
-fig.update_layout(paper_bgcolor = "LightSteelBlue", autosize=True, height=300)
-st.write(fig, se_container_width=True)
+fig_2.update_layout(paper_bgcolor = "LightSteelBlue", autosize=True, height=300)
+st.write(fig_2, se_container_width=True)
 
 st.subheader('Gender Distribution')
 
