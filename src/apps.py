@@ -14,7 +14,7 @@ fig = make_subplots(
             [{"type": "indicator"}, {"type": "indicator"}, {"type": "indicator"}, {"type": "indicator"}],
     ]
 )
-DATA_URL = (r'data\JLT CAT-A-LOG BY CLUSTER.csv')
+DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
 
 image = Image.open('asset/img/banner.png')
 st.image(image, caption='',
