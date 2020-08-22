@@ -8,6 +8,29 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 
+st.sidebar.image('asset/img/leo.jpg')
+
+st.sidebar.markdown(
+           """
+
+**This is Leo (also know as Fergus). One of our JLT kitten, now turned into a handsome boy, giving a taking love in a lovely home.**
+
+Welcome! This tiny website keeps a log of our cats buddies 😻 in JLT.** 
+
+JLT has many cats in the communities, big and small, ginger and tabby, fierce and gentle, senior and kittens.
+
+**And we love all of them 😀.**
+
+Some good folks at JLT regularly take care of the community cats. 
+Part of their work is to make sure the cats are well fed 🍲, have plenty of water (Dubai summer☀️) and get all necessary medical treatments.
+
+If you would like to help in anyway, please get in touch with: 9715xxxxx
+
+Until then, check our CAT-O-LOG 😄😄😄😄😄
+    
+    """
+)
+
 fig = make_subplots(
     rows = 1, cols = 4,
     specs=[
@@ -20,6 +43,12 @@ image = Image.open('asset/img/banner.png')
 st.image(image, caption='',
                  use_column_width=True)
 
+
+
+st.markdown(          """
+
+**Welcome! How are you today? This tiny website keeps a log of our cats buddies 😻 in JLT.** """
+)
 @st.cache
 def load_data():
     data = pd.read_csv(DATA_URL)
@@ -37,16 +66,16 @@ if st.button('Say Meow!!!'):
 
 
 # Create a text element and let the reader know the data is loading.
-data_load_state = st.sidebar.text('Loading data...')
+#data_load_state = st.sidebar.text('Loading data...')
 # Load 10,000 rows of data into the dataframe.
 data = load_data()
 # Notify the reader that the data was successfully loaded.
-data_load_state.text("Loading data completed")
+#data_load_state.text("Loading data completed")
 
 original_data = data
 show_case_data = data.drop(columns=['LAT','LON'])
 
-st.header("A look the numbers")
+st.subheader("The big picture")
 
 total_cat_count= len(data)
 total_tnr_done= len(data[data['TNR'] == 'Yes'])
@@ -95,14 +124,14 @@ fig.update_layout(paper_bgcolor = "LightSteelBlue", autosize=True, height=300)
 
 st.write(fig)
 
-
+st.subheader('Gender Distribution')
 
 ax = fig = px.pie(original_data,
              #values='GENDER',
              names='GENDER',
              #x='USUAL SPOT',
              #y='Count',
-             title='Gender Distribution',
+             #title='Gender Distribution',
              #color='GENDER',
              #barmode='stack'
                   )
@@ -149,7 +178,7 @@ LIGHT_SETTINGS = {
 };
 
 
-st.header("TNR Status")
+st.subheader("TNR Status")
 tnr_status = st.selectbox('',['TNR Done', 'TNR Pending', 'Unknown'])
 
 
@@ -169,11 +198,12 @@ data_cluster = tnr_data.groupby(['USUAL SPOT']).count().sort_values(
     "CATID", ascending=False).head(20).reset_index()
 data_cluster=data_cluster.rename(columns={"CATID": "Count"})
 
+st.subheader('Clusterwise distribution')
 
 ax = fig = px.bar(data_cluster,
              x='USUAL SPOT',
              y='Count',
-             title='By Cluster',
+             #title='By Cluster',
              #color='GENDER',
              barmode='stack')
 st.write(ax)
@@ -187,6 +217,9 @@ COLOR_RANGE = [
     [254, 173, 84],
     [209, 55, 78]
 ];
+
+st.subheader('Map showing the the cluster with number of TNR status')
+
 st.write(pdk.Deck(
     map_style="mapbox://styles/mapbox/light-v10",
     initial_view_state={
@@ -218,9 +251,21 @@ st.write(pdk.Deck(
 ))
 
 
-st.header("Log of all cats in and around JLT Clusters")
+
+#'You selected: ', option
+
+st.subheader("List of our cats in the community")
+             #Feel free to search by Name, Cluster or Gender 😉""")
 st.write(show_case_data)
 #---
+
+st.subheader('****Coming soon!****')
+st.text("Search for a particular cat and see their photo")
+st.text("Don't see your community or cluster cat in the list? You can add it here")
+
+#option = st.selectbox(
+#    'Which number do you like best?',
+#     data['NAME'])
 
 
 
