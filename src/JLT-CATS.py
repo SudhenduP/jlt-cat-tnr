@@ -124,12 +124,11 @@ fig.add_trace(
 
 
 fig.update_layout(paper_bgcolor = "LightSteelBlue", autosize=True, height=300)
-st.plotly_chart(fig, use_container_width=True)
-st.write(fig)
+st.write(fig, se_container_width=True)
 
 st.subheader('Gender Distribution')
 
-ax = fig = px.pie(original_data,
+ax =  px.pie(original_data,
              #values='GENDER',
              names='GENDER',
              #x='USUAL SPOT',
