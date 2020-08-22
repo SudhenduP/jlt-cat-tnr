@@ -82,6 +82,9 @@ total_tnr_done= len(data[data['TNR'] == 'Yes'])
 total_tnr_pending= len(data[data['TNR'] != 'Yes'])
 total_adopted = len(data[data['ADOPTED'] == 'Yes'])
 print(total_tnr_done)
+
+
+
 fig.add_trace(
     go.Indicator(
         mode="number",
@@ -121,7 +124,7 @@ fig.add_trace(
 
 
 fig.update_layout(paper_bgcolor = "LightSteelBlue", autosize=True, height=300)
-
+st.plotly_chart(fig, use_container_width=True)
 st.write(fig)
 
 st.subheader('Gender Distribution')
@@ -135,7 +138,8 @@ ax = fig = px.pie(original_data,
              #color='GENDER',
              #barmode='stack'
                   )
-st.write(ax)
+
+st.write(ax, use_container_width=True)
 
 
 midpoint = (np.average(data["LAT"]), np.average(data["LON"]))
@@ -206,7 +210,7 @@ ax = fig = px.bar(data_cluster,
              #title='By Cluster',
              #color='GENDER',
              barmode='stack')
-st.write(ax)
+st.write(ax, use_container_width=True)
 
 
 COLOR_RANGE = [
@@ -248,7 +252,7 @@ st.write(pdk.Deck(
             tooltip= True
         ),
     ],
-))
+), use_container_width=True)
 
 
 
