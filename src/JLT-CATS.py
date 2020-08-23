@@ -7,6 +7,9 @@ import plotly.express as px
 from PIL import Image
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import requests
+from io import BytesIO
+
 
 st.beta_set_page_config(page_title='JLT-CAT-A-LOG', page_icon="🧊",
                         layout="centered",
@@ -81,13 +84,14 @@ data = load_data()
 original_data = data
 show_case_data = data.drop(columns=['LAT', 'LON'])
 
-st.subheader("The big picture")
+
+
 
 total_cat_count = len(data)
 total_tnr_done = len(data[data['TNR'] == 'Yes'])
 total_tnr_pending = len(data[data['TNR'] != 'Yes'])
 total_adopted = len(data[data['ADOPTED'] == 'Yes'])
-print(total_tnr_done)
+
 
 fig_1.add_trace(
     go.Indicator(
@@ -209,11 +213,13 @@ data_cluster = data_cluster.rename(columns={"CATID": "Count"})
 st.subheader('Clusterwise distribution for: %s '%tnr_status)
 
 ax = fig = px.bar(data_cluster,
-                  x='USUAL SPOT',
-                  y='Count',
+                  x='Count',
+                  y='USUAL SPOT',
                   # title='By Cluster',
                   # color='GENDER',
-                  barmode='stack')
+                  barmode='stack',
+                  orientation='h',
+                  height=300, width=400)
 st.write(ax, use_container_width=True)
 
 COLOR_RANGE = [
@@ -284,3 +290,40 @@ csv = original_data.to_csv(index=False)
 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
 href = f'<a href="data:file/csv;base64,{b64}">Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
 st.markdown(href, unsafe_allow_html=True)
+
+
+fig = go.Figure()
+
+fig.add_trace(go.Indicator(
+    value = 200,
+    delta = {'reference': 160},
+    gauge = {
+        'axis': {'visible': False}},
+    domain = {'row': 0, 'column': 0}))
+
+fig.add_trace(go.Indicator(
+    value = 120,
+    gauge = {
+        'shape': "bullet",
+        'axis' : {'visible': False}},
+    domain = {'x': [0.05, 0.5], 'y': [0.15, 0.35]}))
+
+fig.add_trace(go.Indicator(
+    mode = "number+delta",
+    value = 300,
+    domain = {'row': 0, 'column': 1}))
+
+fig.add_trace(go.Indicator(
+    mode = "delta",
+    value = 40,
+    domain = {'row': 1, 'column': 1}))
+
+fig.update_layout(
+    grid = {'rows': 2, 'columns': 2, 'pattern': "independent"},
+    template = {'data' : {'indicator': [{
+        'title': {'text': "Speed"},
+        'mode' : "number+delta+gauge",
+        'delta' : {'reference': 90}}]
+                         }})
+
+st.write(fig)
