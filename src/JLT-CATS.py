@@ -69,7 +69,7 @@ def load_data():
     data = data.sort_values(by='USUAL SPOT', ascending=True)
     return data
 
-if st.button("Say Mewo😻"):
+if st.button("Say Meowww😻"):
     st.write('😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽')
     st.balloons()
 
