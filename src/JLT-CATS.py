@@ -1,3 +1,4 @@
+import base64
 import pandas as pd
 import numpy as np
 import pydeck as pdk
@@ -7,11 +8,13 @@ from PIL import Image
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-
+st.beta_set_page_config(page_title='JLT-CAT-A-LOG', page_icon="🧊",
+                        layout="centered",
+                        initial_sidebar_state="expanded", )
 st.sidebar.image('asset/img/leo.jpg')
 
 st.sidebar.markdown(
-           """
+    """
 
 **This is Leo (also know as Fergus). One of our JLT kitten, now turned into a handsome boy, giving a taking love in a lovely home.**
 
@@ -27,75 +30,69 @@ Part of their work is to make sure the cats are well fed 🍲, have plenty of wa
 If you would like to help in anyway, please get in touch with: 9715xxxxx
 
 Until then, check our CAT-O-LOG 😄😄😄😄😄
-    
+
     """
 )
 
 fig_1 = make_subplots(
-    rows = 1, cols = 2,
+    rows=1, cols=2,
     specs=[
-            [{"type": "indicator"}, {"type": "indicator"}],
+        [{"type": "indicator"}, {"type": "indicator"}],
     ]
 )
 
 fig_2 = make_subplots(
-    rows = 1, cols = 2,
+    rows=1, cols=2,
     specs=[
-            [{"type": "indicator"}, {"type": "indicator"}],
+        [{"type": "indicator"}, {"type": "indicator"}],
     ]
 )
 DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
 
 image = Image.open('asset/img/banner.png')
 st.image(image, caption='',
-                 use_column_width=True)
+         use_column_width=True)
+
+st.header("Hello! How are you today? This tiny site keeps a log of our JLT communiy tcats 😻")
 
 
-
-st.markdown(          """
-
-**Welcome! How are you today? This tiny website keeps a log of our cats buddies 😻 in JLT.** """
-)
 @st.cache
 def load_data():
     data = pd.read_csv(DATA_URL)
-    #data.dropna(subset=['longitude', 'latitude'], inplace=True)
-    #lowercase = lambda x: str(x).lower()
+    # data.dropna(subset=['longitude', 'latitude'], inplace=True)
+    # lowercase = lambda x: str(x).lower()
     #  data.rename(lowercase, axis='columns', inplace=True)
-    data  = data.fillna('No')
+    data = data.fillna('No')
+    data = data.sort_values(by='USUAL SPOT', ascending=True)
     return data
+
 
 if st.button('Say Meow!!!'):
     st.write('😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽')
     st.balloons()
 
-
-
-
 # Create a text element and let the reader know the data is loading.
-#data_load_state = st.sidebar.text('Loading data...')
+# data_load_state = st.sidebar.text('Loading data...')
 # Load 10,000 rows of data into the dataframe.
 data = load_data()
 # Notify the reader that the data was successfully loaded.
-#data_load_state.text("Loading data completed")
+# data_load_state.text("Loading data completed")
 
 original_data = data
-show_case_data = data.drop(columns=['LAT','LON'])
+show_case_data = data.drop(columns=['LAT', 'LON'])
 
 st.subheader("The big picture")
 
-total_cat_count= len(data)
-total_tnr_done= len(data[data['TNR'] == 'Yes'])
-total_tnr_pending= len(data[data['TNR'] != 'Yes'])
+total_cat_count = len(data)
+total_tnr_done = len(data[data['TNR'] == 'Yes'])
+total_tnr_pending = len(data[data['TNR'] != 'Yes'])
 total_adopted = len(data[data['ADOPTED'] == 'Yes'])
 print(total_tnr_done)
-
-
 
 fig_1.add_trace(
     go.Indicator(
         mode="number",
-        value=total_adopted ,
+        value=total_cat_count,
         title="Total Cats",
     ),
     row=1, col=1
@@ -119,41 +116,41 @@ fig_2.add_trace(
     row=1, col=1
 )
 
-
 fig_2.add_trace(
     go.Indicator(
         mode="number",
-        value=total_tnr_pending ,
+        value=total_tnr_pending,
         title="TNR Pending",
     ),
     row=1, col=2
 )
 
 
-fig_1.update_layout(paper_bgcolor = "LightSteelBlue", autosize=True, height=300)
-st.write(fig_1, se_container_width=True)
+fig_1.update_layout(paper_bgcolor="LightSteelBlue", autosize=False, height=300, width=400)
+st.write(fig_1)
 
-fig_2.update_layout(paper_bgcolor = "LightSteelBlue", autosize=True, height=300)
-st.write(fig_2, se_container_width=True)
+fig_2.update_layout(paper_bgcolor="LightSteelBlue", height=300, width=400)
+st.write(fig_2)
 
 st.subheader('Gender Distribution')
 
-ax =  px.pie(original_data,
-             #values='GENDER',
-             names='GENDER',
-             #x='USUAL SPOT',
-             #y='Count',
-             #title='Gender Distribution',
-             #color='GENDER',
-             #barmode='stack'
-                  )
+ax = px.pie(original_data,
+            # values='GENDER',
+            names='GENDER',
+            # x='USUAL SPOT',
+            # y='Count',
+            # title='Gender Distribution',
+            # color='GENDER',
+            # barmode='stack'
+                width= 400,
+                height= 300,
+            )
 
 st.write(ax, use_container_width=True)
 
-
 midpoint = (np.average(data["LAT"]), np.average(data["LON"]))
 
-#st.write(pdk.Deck(
+# st.write(pdk.Deck(
 #    map_style="mapbox://styles/mapbox/dark-v10",
 #    initial_view_state={
 #        "latitude": midpoint[0],
@@ -179,7 +176,7 @@ midpoint = (np.average(data["LAT"]), np.average(data["LON"]))
 #            get_line_color=[0, 0, 0],
 #       ),
 #    ],
-#))
+# ))
 
 LIGHT_SETTINGS = {
     "lightsPosition": [-0.144528, 49.739968, 8000, -3.807751, 54.104682, 8000],
@@ -190,37 +187,34 @@ LIGHT_SETTINGS = {
     "numberOfLights": 2
 };
 
-
 st.subheader("TNR Status")
-tnr_status = st.selectbox('',['TNR Done', 'TNR Pending', 'Unknown'])
-
+tnr_status = st.selectbox('', ['TNR Done', 'TNR Pending', 'Unknown'])
 
 if tnr_status == 'TNR Done':
     tnr_data = original_data.query('TNR == "Yes"').sort_values(
-        by=['USUAL SPOT'], ascending=False)
+        by=['USUAL SPOT'], ascending=True)
 
 elif tnr_status == 'TNR Pending':
     tnr_data = original_data.query('TNR == "No"').sort_values(
-        by=['USUAL SPOT'], ascending=False)
+        by=['USUAL SPOT'], ascending=True)
 
 else:
     tnr_data = original_data.query('TNR == "Unknown"').sort_values(
-        by=['USUAL SPOT'], ascending=False)
+        by=['USUAL SPOT'], ascending=True)
 
 data_cluster = tnr_data.groupby(['USUAL SPOT']).count().sort_values(
     "CATID", ascending=False).head(20).reset_index()
-data_cluster=data_cluster.rename(columns={"CATID": "Count"})
+data_cluster = data_cluster.rename(columns={"CATID": "Count"})
 
-st.subheader('Clusterwise distribution')
+st.subheader('Clusterwise distribution for: %s '%tnr_status)
 
 ax = fig = px.bar(data_cluster,
-             x='USUAL SPOT',
-             y='Count',
-             #title='By Cluster',
-             #color='GENDER',
-             barmode='stack')
+                  x='USUAL SPOT',
+                  y='Count',
+                  # title='By Cluster',
+                  # color='GENDER',
+                  barmode='stack')
 st.write(ax, use_container_width=True)
-
 
 COLOR_RANGE = [
     [1, 152, 189],
@@ -231,16 +225,17 @@ COLOR_RANGE = [
     [209, 55, 78]
 ];
 
-st.subheader('Map showing the the cluster with number of TNR status')
+st.subheader('Map showing the the cluster with: %s '%tnr_status)
 
 st.write(pdk.Deck(
     map_style="mapbox://styles/mapbox/light-v10",
     initial_view_state={
         "latitude": midpoint[0],
         "longitude": midpoint[1],
-        "zoom": 14,
-        "pitch": 50,
-        "bearing" :-27.36,
+        "zoom": 13,
+        "pitch": 60,
+        "bearing": -27.36,
+        "tooltip": True,
 
     },
     layers=[
@@ -249,36 +244,43 @@ st.write(pdk.Deck(
             data=tnr_data[['LAT', 'LON']],
             get_position=["LON", "LAT"],
             auto_highlight=True,
-            radius= 25,
+            radius=100,
             elevation_scale=200,
             pickable=True,
             elevation_range=[0, 10],
             extruded=True,
             coverage=1,
-            lightSettings= LIGHT_SETTINGS,
-            #colorRange = '00000',
+            lightSettings=LIGHT_SETTINGS,
+            colorRange=COLOR_RANGE,
             opacity=1,
-            tooltip= True
+            tooltip=True,
         ),
+
     ],
-), use_container_width=True)
 
 
+    tooltip={"html": "<b>Color Value:</b> {TNR}", "style": {"color": "white"}},
+))
 
-#'You selected: ', option
+# 'You selected: ', option
 
 st.subheader("List of our cats in the community")
-             #Feel free to search by Name, Cluster or Gender 😉""")
-st.write(show_case_data)
-#---
+# Feel free to search by Name, Cluster or Gender 😉""")
+cluster_select = st.selectbox(
+    'Select the Cluster you want to view?',
+    data['USUAL SPOT'].unique())
+
+# data.query("injured_persons >= @injured_people")
+selected_cluster = show_case_data[show_case_data['USUAL SPOT'] == cluster_select].sort_values(
+    by=['USUAL SPOT'], ascending=False)
+st.write(selected_cluster)
+# ---
 
 st.subheader('****Coming soon!****')
 st.text("Search for a particular cat and see their photo")
 st.text("Don't see your community or cluster cat in the list? You can add it here")
 
-#option = st.selectbox(
-#    'Which number do you like best?',
-#     data['NAME'])
-
-
-
+csv = original_data.to_csv(index=False)
+b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+href = f'<a href="data:file/csv;base64,{b64}">Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
+st.markdown(href, unsafe_allow_html=True)
