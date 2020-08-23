@@ -21,15 +21,15 @@ st.sidebar.markdown(
 **This is Leo (also called Fergus). One of our JLT kitten, now turned into a handsome boy,
 loving and  living with a beautiful family.**
 
-Welcome! This tiny website keeps a log of our cats buddies 😻 in JLT.
+Welcome! This tiny website keeps a log of our cat-buddies 😻 in JLT.
 
-JLT has many cats in the communities, big and small, ginger and tabby, fierce and gentle, senior and kittens.
+JLT has many cats in the community, big and small, ginger and tabby, fierce and gentle, senior and kittens.
 
 **And we love all of them 😀**
 
 Some good folks 🙋 🙋‍♂️ at JLT regularly take care of the community cats. 
 Part of their work is to make sure the cats are well fed 🍲, have plenty of water (Dubai summer☀️) 
-and get all medically attention 👨‍⚕️.
+and get all medical attention 👨‍⚕️.
 
 If you would like to help in anyway, please get in touch with: 9715xxxxx
 
@@ -130,8 +130,9 @@ fig_1.update_layout(template="plotly_dark", font_family="Arial", margin=dict(l=2
 
 st.plotly_chart(fig_1, use_container_width=True)
 
-st.subheader("Is it a girl? A boy? It's a mystery! 😵")
-st.markdown('Did you know, it is not easy to identify the gender of kitten. We sometimes have to wait for the vet visit to get an idea')
+st.subheader("It it a girl? A boy? It's a mystery! 😵")
+st.markdown('Did you know, it is not easy to identify the gender of kitten')
+st.markdown('We sometimes have to wait for the vet visit to get an idea')
 
 fig_gender = px.pie(original_data,
                     # values='GENDER',
@@ -287,7 +288,7 @@ st.subheader("How can you help? Glad you asked")
 st.markdown("""
 
 - Be nice to them 🧡
-- If you cycle or scooter around 🚴, be mindful of the cats (they are very sneaking)
+- If you cycle or scooter around 🚴, be mindful of the cats (they are very sneaky)
 - If you can, feed them with cat food (no human food please 🤒)
 - If you can help foster, please get in touch 🐈
 - Looking for adopting 👪? Ask us! We have kittens & cats looking for a lovely home.
