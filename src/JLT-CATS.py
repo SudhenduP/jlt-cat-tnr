@@ -10,7 +10,6 @@ from plotly.subplots import make_subplots
 import requests
 from io import BytesIO
 
-
 st.beta_set_page_config(page_title='JLT-CAT-A-LOG', page_icon="🧊",
                         layout="centered",
                         initial_sidebar_state="expanded", )
@@ -19,16 +18,18 @@ st.sidebar.image('asset/img/leo.jpg')
 st.sidebar.markdown(
     """
 
-**This is Leo (also know as Fergus). One of our JLT kitten, now turned into a handsome boy, giving a taking love in a lovely home.**
+**This is Leo (also called Fergus). One of our JLT kitten, now turned into a handsome boy,
+loving and  living with a beautiful family.**
 
-Welcome! This tiny website keeps a log of our cats buddies 😻 in JLT.** 
+Welcome! This tiny website keeps a log of our cats buddies 😻 in JLT.
 
 JLT has many cats in the communities, big and small, ginger and tabby, fierce and gentle, senior and kittens.
 
-**And we love all of them 😀.**
+**And we love all of them 😀**
 
-Some good folks at JLT regularly take care of the community cats. 
-Part of their work is to make sure the cats are well fed 🍲, have plenty of water (Dubai summer☀️) and get all necessary medical treatments.
+Some good folks 🙋 🙋‍♂️ at JLT regularly take care of the community cats. 
+Part of their work is to make sure the cats are well fed 🍲, have plenty of water (Dubai summer☀️) 
+and get all medically fit 👨‍⚕️.
 
 If you would like to help in anyway, please get in touch with: 9715xxxxx
 
@@ -38,27 +39,24 @@ Until then, check our CAT-O-LOG 😄😄😄😄😄
 )
 
 fig_1 = make_subplots(
-    rows=1, cols=2,
+    rows=2, cols=2,
     specs=[
         [{"type": "indicator"}, {"type": "indicator"}],
+        [{"type": "indicator"}, {"type": "indicator"}],
     ],
-horizontal_spacing = 0, vertical_spacing=0
+    horizontal_spacing=0, vertical_spacing=0
 )
 
-fig_2 = make_subplots(
-    rows=1, cols=2,
-    specs=[
-        [{"type": "indicator"}, {"type": "indicator"}],
-    ],
-horizontal_spacing = 0, vertical_spacing=0
-)
 DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
 
 image = Image.open('asset/img/banner.png')
 st.image(image, caption='',
          use_column_width=True)
 
-st.header("Hello! How are you today? This tiny site keeps a log of our JLT communiy tcats 😻")
+
+st.markdown("<h2 style='text-align: center; color: black;'>Hello! How are you today? This tiny site keeps a log of our JLT community cats 😻</h2>", unsafe_allow_html=True)
+
+#st.header("Hello! How are you today? This tiny site keeps a log of our JLT community cats 😻")
 
 
 @st.cache
@@ -71,8 +69,7 @@ def load_data():
     data = data.sort_values(by='USUAL SPOT', ascending=True)
     return data
 
-
-if st.button('Say Meow!!!'):
+if st.button("Say Mewo😻"):
     st.write('😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽')
     st.balloons()
 
@@ -86,14 +83,10 @@ data = load_data()
 original_data = data
 show_case_data = data.drop(columns=['LAT', 'LON'])
 
-
-
-
 total_cat_count = len(data)
 total_tnr_done = len(data[data['TNR'] == 'Yes'])
 total_tnr_pending = len(data[data['TNR'] != 'Yes'])
 total_adopted = len(data[data['ADOPTED'] == 'Yes'])
-
 
 fig_1.add_trace(
     go.Indicator(
@@ -115,50 +108,45 @@ fig_1.add_trace(
     row=1, col=2
 )
 
-fig_2.add_trace(
+fig_1.add_trace(
     go.Indicator(
         mode="number",
         value=total_tnr_done,
         title="TNR Done",
     ),
-    row=1, col=1
+    row=2, col=1
 )
 
-fig_2.add_trace(
+fig_1.add_trace(
     go.Indicator(
         mode="number",
         value=total_tnr_pending,
         title="TNR Pending",
     ),
-    row=1, col=2
+    row=2, col=2
 )
 
-fig_1.update_layout(paper_bgcolor="LightSteelBlue", margin=dict(l=20, r=20, t=20, b=20))
+fig_1.update_layout(template="plotly_dark", font_family="Arial", margin=dict(l=20, r=20, t=20, b=20))
 
-#st.write(fig_1)
+st.plotly_chart(fig_1, use_container_width=True)
 
-st.plotly_chart(fig_1,use_container_width=True)
-#st.plotly_chart(fig_1)
-
-
-fig_2.update_layout(paper_bgcolor="LightSteelBlue", margin=dict(l=20, r=20, t=20, b=20))
-st.plotly_chart(fig_2,use_container_width=True)
-
-st.subheader('Gender Distribution')
+st.subheader("It it a girl? A boy? It's a mystery! 😵")
+st.text('Did you know, it is not easy to identify the gender of kitten')
+st.text('We sometimes have to wait for the vet visit to get an idea')
 
 fig_gender = px.pie(original_data,
-            # values='GENDER',
-            names='GENDER',
-            # x='USUAL SPOT',
-            # y='Count',
-            # title='Gender Distribution',
-            # color='GENDER',
-            # barmode='stack'
-            #    width= 400,
-            #    height= 300,
-            )
+                    # values='GENDER',
+                    names='GENDER',
+                    # x='USUAL SPOT',
+                    # y='Count',
+                    # title='Gender Distribution',
+                    # color='GENDER',
+                    # barmode='stack'
+                    #    width= 400,
+                    #    height= 300,
+                    )
 
-st.plotly_chart(fig_gender,use_container_width=True)
+st.plotly_chart(fig_gender, use_container_width=True)
 
 midpoint = (np.average(data["LAT"]), np.average(data["LON"]))
 
@@ -200,6 +188,7 @@ LIGHT_SETTINGS = {
 };
 
 st.subheader("TNR Status")
+st.text('TNR stands for: Trap Neutered Release. Use the dropdown to see the list')
 tnr_status = st.selectbox('', ['TNR Done', 'TNR Pending', 'Unknown'])
 
 if tnr_status == 'TNR Done':
@@ -218,19 +207,6 @@ data_cluster = tnr_data.groupby(['USUAL SPOT']).count().sort_values(
     "CATID", ascending=False).head(20).reset_index()
 data_cluster = data_cluster.rename(columns={"CATID": "Count"})
 
-st.subheader('Clusterwise distribution for: %s '%tnr_status)
-
-fig_cluster_bar = px.bar(data_cluster,
-                  x='Count',
-                  y='USUAL SPOT',
-                  # title='By Cluster',
-                  # color='GENDER',
-                  barmode='stack',
-                  orientation='h',
-             #     height=300, width=400
-            )
-st.plotly_chart(fig_cluster_bar,use_container_width=True)
-
 COLOR_RANGE = [
     [1, 152, 189],
     [73, 227, 206],
@@ -240,7 +216,8 @@ COLOR_RANGE = [
     [209, 55, 78]
 ];
 
-st.subheader('Map showing the the cluster with: %s '%tnr_status)
+st.subheader('Map showing the the cluster with: %s ' % tnr_status)
+st.text('The height of the tower indicate the count of %s ' % tnr_status)
 
 st.write(pdk.Deck(
     map_style="mapbox://styles/mapbox/light-v10",
@@ -269,17 +246,32 @@ st.write(pdk.Deck(
             colorRange=COLOR_RANGE,
             opacity=1,
             tooltip=True,
+            hoverinfo='text',
         ),
 
     ],
 
-
-    tooltip={"html": "<b>Color Value:</b> {TNR}", "style": {"color": "white"}},
+    # tooltip={"html": "<b>Color Value:</b> {TNR}", "style": {"color": "white"}},
+    tooltip={"text": "Elevation: {elevationValue}"},
 ))
+
+st.subheader('Clusterwise distribution for: %s ' % tnr_status)
+
+fig_cluster_bar = px.bar(data_cluster,
+                         x='Count',
+                         y='USUAL SPOT',
+                         # title='By Cluster',
+                         barmode='stack',
+                         orientation='h',
+                         text='Count',
+
+                         )
+st.plotly_chart(fig_cluster_bar, use_container_width=True)
 
 # 'You selected: ', option
 
-st.subheader("List of our cats in the community")
+st.subheader("List of cats in the community with other details")
+st.text('Saw a cat you dont think is in the list? Let us know please.')
 # Feel free to search by Name, Cluster or Gender 😉""")
 cluster_select = st.selectbox(
     'Select the Cluster you want to view?',
@@ -291,11 +283,26 @@ selected_cluster = show_case_data[show_case_data['USUAL SPOT'] == cluster_select
 st.write(selected_cluster)
 # ---
 
-st.subheader('****Coming soon!****')
-st.text("Search for a particular cat and see their photo")
-st.text("Don't see your community or cluster cat in the list? You can add it here")
+
+st.subheader("How can you help? Glad you asked")
+st.text("""
+
+- Be nice to them 🧡
+- If you cycle or scooter around 🚴, be mindful of the cats (they are very sneaking)
+- If you can, feed them with cat food (no human food please 🤒)
+- If you can help foster, please get in touch 🐈
+- Looking for adopting 👪? Ask us! We have kittens & cats looking for a lovely home.
+
+""")
 
 csv = original_data.to_csv(index=False)
 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
 href = f'<a href="data:file/csv;base64,{b64}">Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
 st.markdown(href, unsafe_allow_html=True)
+
+
+st.subheader('****Coming soon features!****')
+st.text("Search for a particular cat and see their photo")
+st.text("Don't see your community or cluster cat in the list? You can add it here")
+
+
