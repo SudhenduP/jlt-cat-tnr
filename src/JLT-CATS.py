@@ -42,7 +42,7 @@ fig_1 = make_subplots(
     specs=[
         [{"type": "indicator"}, {"type": "indicator"}],
     ],
-horizontal_spacing = 0, vertical_spacing=0, height=10
+horizontal_spacing = 0, vertical_spacing=0
 )
 
 fig_2 = make_subplots(
