@@ -131,8 +131,8 @@ fig_1.update_layout(template="plotly_dark", font_family="Arial", margin=dict(l=2
 st.plotly_chart(fig_1, use_container_width=True)
 
 st.subheader("It it a girl? A boy? It's a mystery! 😵")
-st.text('Did you know, it is not easy to identify the gender of kitten')
-st.text('We sometimes have to wait for the vet visit to get an idea')
+st.markdown('Did you know, it is not easy to identify the gender of kitten')
+st.markdown('We sometimes have to wait for the vet visit to get an idea')
 
 fig_gender = px.pie(original_data,
                     # values='GENDER',
@@ -188,7 +188,7 @@ LIGHT_SETTINGS = {
 };
 
 st.subheader("TNR Status")
-st.text('TNR stands for: Trap Neutered Release. Use the dropdown to see the list')
+st.markdown('TNR stands for: Trap Neutered Release. Use the dropdown to see the list')
 tnr_status = st.selectbox('', ['TNR Done', 'TNR Pending', 'Unknown'])
 
 if tnr_status == 'TNR Done':
@@ -217,7 +217,7 @@ COLOR_RANGE = [
 ];
 
 st.subheader('Map showing the the cluster with: %s ' % tnr_status)
-st.text('The height of the tower indicate the count of %s ' % tnr_status)
+st.markdown('The height of the tower indicate the count of %s ' % tnr_status)
 
 st.write(pdk.Deck(
     map_style="mapbox://styles/mapbox/light-v10",
@@ -271,7 +271,7 @@ st.plotly_chart(fig_cluster_bar, use_container_width=True)
 # 'You selected: ', option
 
 st.subheader("List of cats in the community with other details")
-st.text('Saw a cat you dont think is in the list? Let us know please.')
+st.markdown('Saw a cat you think is not in the list? Let us know please.')
 # Feel free to search by Name, Cluster or Gender 😉""")
 cluster_select = st.selectbox(
     'Select the Cluster you want to view?',
@@ -285,7 +285,7 @@ st.write(selected_cluster)
 
 
 st.subheader("How can you help? Glad you asked")
-st.text("""
+st.markdown("""
 
 - Be nice to them 🧡
 - If you cycle or scooter around 🚴, be mindful of the cats (they are very sneaking)
