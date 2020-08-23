@@ -29,7 +29,7 @@ JLT has many cats in the communities, big and small, ginger and tabby, fierce an
 
 Some good folks 🙋 🙋‍♂️ at JLT regularly take care of the community cats. 
 Part of their work is to make sure the cats are well fed 🍲, have plenty of water (Dubai summer☀️) 
-and get all medically fit 👨‍⚕️.
+and get all medically attention 👨‍⚕️.
 
 If you would like to help in anyway, please get in touch with: 9715xxxxx
 
