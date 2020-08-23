@@ -306,3 +306,6 @@ st.text("Search for a particular cat and see their photo")
 st.text("Don't see your community or cluster cat in the list? You can add it here")
 
 
+image = Image.open('asset/img/collage.jpg')
+st.image(image, caption='',
+         use_column_width=True, clamp=True)
