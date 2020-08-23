@@ -133,16 +133,20 @@ fig_2.add_trace(
     row=1, col=2
 )
 
-fig_1.update_layout(paper_bgcolor="LightSteelBlue", autosize=False, margin=dict(l=20, r=20, t=20, b=20))
+fig_1.update_layout(paper_bgcolor="LightSteelBlue", margin=dict(l=20, r=20, t=20, b=20))
 
-st.write(fig_1)
+#st.write(fig_1)
+
+st.plotly_chart(fig_1,use_container_width=True)
+#st.plotly_chart(fig_1)
+
 
 fig_2.update_layout(paper_bgcolor="LightSteelBlue", margin=dict(l=20, r=20, t=20, b=20))
-st.write(fig_2)
+st.plotly_chart(fig_2,use_container_width=True)
 
 st.subheader('Gender Distribution')
 
-ax = px.pie(original_data,
+fig_gender = px.pie(original_data,
             # values='GENDER',
             names='GENDER',
             # x='USUAL SPOT',
@@ -154,7 +158,7 @@ ax = px.pie(original_data,
             #    height= 300,
             )
 
-st.write(ax )
+st.plotly_chart(fig_gender,use_container_width=True)
 
 midpoint = (np.average(data["LAT"]), np.average(data["LON"]))
 
@@ -216,7 +220,7 @@ data_cluster = data_cluster.rename(columns={"CATID": "Count"})
 
 st.subheader('Clusterwise distribution for: %s '%tnr_status)
 
-ax = px.bar(data_cluster,
+fig_cluster_bar = px.bar(data_cluster,
                   x='Count',
                   y='USUAL SPOT',
                   # title='By Cluster',
@@ -225,7 +229,7 @@ ax = px.bar(data_cluster,
                   orientation='h',
              #     height=300, width=400
             )
-st.write(ax, use_container_width=True)
+st.plotly_chart(fig_cluster_bar,use_container_width=True)
 
 COLOR_RANGE = [
     [1, 152, 189],
@@ -295,40 +299,3 @@ csv = original_data.to_csv(index=False)
 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
 href = f'<a href="data:file/csv;base64,{b64}">Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
 st.markdown(href, unsafe_allow_html=True)
-
-
-fig = go.Figure()
-
-fig.add_trace(go.Indicator(
-    value = 200,
-    delta = {'reference': 160},
-    gauge = {
-        'axis': {'visible': False}},
-    domain = {'row': 0, 'column': 0}))
-
-fig.add_trace(go.Indicator(
-    value = 120,
-    gauge = {
-        'shape': "bullet",
-        'axis' : {'visible': False}},
-    domain = {'x': [0.05, 0.5], 'y': [0.15, 0.35]}))
-
-fig.add_trace(go.Indicator(
-    mode = "number+delta",
-    value = 300,
-    domain = {'row': 0, 'column': 1}))
-
-fig.add_trace(go.Indicator(
-    mode = "delta",
-    value = 40,
-    domain = {'row': 1, 'column': 1}))
-
-fig.update_layout(
-    grid = {'rows': 2, 'columns': 2, 'pattern': "independent"},
-    template = {'data' : {'indicator': [{
-        'title': {'text': "Speed"},
-        'mode' : "number+delta+gauge",
-        'delta' : {'reference': 90}}]
-                         }})
-
-st.write(fig)
