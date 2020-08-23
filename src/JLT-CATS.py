@@ -130,9 +130,8 @@ fig_1.update_layout(template="plotly_dark", font_family="Arial", margin=dict(l=2
 
 st.plotly_chart(fig_1, use_container_width=True)
 
-st.subheader("It it a girl? A boy? It's a mystery! 😵")
-st.markdown('Did you know, it is not easy to identify the gender of kitten')
-st.markdown('We sometimes have to wait for the vet visit to get an idea')
+st.subheader("Is it a girl? A boy? It's a mystery! 😵")
+st.markdown('Did you know, it is not easy to identify the gender of kitten. We sometimes have to wait for the vet visit to get an idea')
 
 fig_gender = px.pie(original_data,
                     # values='GENDER',
