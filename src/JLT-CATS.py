@@ -41,14 +41,16 @@ fig_1 = make_subplots(
     rows=1, cols=2,
     specs=[
         [{"type": "indicator"}, {"type": "indicator"}],
-    ]
+    ],
+horizontal_spacing = 0, vertical_spacing=0, height=10
 )
 
 fig_2 = make_subplots(
     rows=1, cols=2,
     specs=[
         [{"type": "indicator"}, {"type": "indicator"}],
-    ]
+    ],
+horizontal_spacing = 0, vertical_spacing=0
 )
 DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
 
@@ -98,8 +100,10 @@ fig_1.add_trace(
         mode="number",
         value=total_cat_count,
         title="Total Cats",
+
     ),
     row=1, col=1
+
 )
 
 fig_1.add_trace(
@@ -129,11 +133,11 @@ fig_2.add_trace(
     row=1, col=2
 )
 
+fig_1.update_layout(paper_bgcolor="LightSteelBlue", autosize=False, margin=dict(l=20, r=20, t=20, b=20))
 
-fig_1.update_layout(paper_bgcolor="LightSteelBlue", autosize=False, height=300, width=400)
 st.write(fig_1)
 
-fig_2.update_layout(paper_bgcolor="LightSteelBlue", height=300, width=400)
+fig_2.update_layout(paper_bgcolor="LightSteelBlue", margin=dict(l=20, r=20, t=20, b=20))
 st.write(fig_2)
 
 st.subheader('Gender Distribution')
@@ -146,11 +150,11 @@ ax = px.pie(original_data,
             # title='Gender Distribution',
             # color='GENDER',
             # barmode='stack'
-                width= 400,
-                height= 300,
+            #    width= 400,
+            #    height= 300,
             )
 
-st.write(ax, use_container_width=True)
+st.write(ax )
 
 midpoint = (np.average(data["LAT"]), np.average(data["LON"]))
 
@@ -212,14 +216,15 @@ data_cluster = data_cluster.rename(columns={"CATID": "Count"})
 
 st.subheader('Clusterwise distribution for: %s '%tnr_status)
 
-ax = fig = px.bar(data_cluster,
+ax = px.bar(data_cluster,
                   x='Count',
                   y='USUAL SPOT',
                   # title='By Cluster',
                   # color='GENDER',
                   barmode='stack',
                   orientation='h',
-                  height=300, width=400)
+             #     height=300, width=400
+            )
 st.write(ax, use_container_width=True)
 
 COLOR_RANGE = [
