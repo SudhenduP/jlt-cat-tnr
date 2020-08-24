@@ -310,3 +310,13 @@ image = Image.open('asset/img/collage.jpg')
 st.image(image, caption='',
          use_column_width=True, clamp=True)
 #Footer collage END
+
+
+#hide the hamburger
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            #footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
