@@ -1,3 +1,5 @@
+#import library- will clean later
+
 import base64
 import pandas as pd
 import numpy as np
@@ -10,15 +12,19 @@ from plotly.subplots import make_subplots
 import requests
 from io import BytesIO
 
+#set page level setting
+
 st.beta_set_page_config(page_title='JLT-CAT-A-LOG', page_icon="🧊",
                         layout="centered",
                         initial_sidebar_state="expanded", )
+
+#sidebar configuration- START
 st.sidebar.image('asset/img/leo.jpg')
 
 st.sidebar.markdown(
     """
 
-**This is Leo (also called Fergus). One of our JLT kitten, now turned into a handsome boy,
+**This is Leo (aka Fergus). One of our JLT kitten, now turned into a handsome boy,
 loving and  living with a beautiful family.**
 
 Welcome! This tiny website keeps a log of our cat-buddies 😻 in JLT.
@@ -40,27 +46,23 @@ Until then, check our CAT-O-LOG 😄😄😄😄😄
 
     """
 )
+#sidebar configuration- END
 
-fig_1 = make_subplots(
-    rows=2, cols=2,
-    specs=[
-        [{"type": "indicator"}, {"type": "indicator"}],
-        [{"type": "indicator"}, {"type": "indicator"}],
-    ],
-    horizontal_spacing=0, vertical_spacing=0
-)
+#variables
 
 DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
+banner = Image.open('asset/img/banner.png')
 
-image = Image.open('asset/img/banner.png')
-st.image(image, caption='',
+#Banner
+st.image(banner, caption='',
          use_column_width=True)
 
 
+#Main title
 st.markdown("<h2 style='text-align: center; color: black;'>Hello! How are you today? This tiny site keeps a log of our JLT community cats 😻</h2>", unsafe_allow_html=True)
 
-#st.header("Hello! How are you today? This tiny site keeps a log of our JLT community cats 😻")
 
+#Data load module- START
 
 @st.cache
 def load_data():
@@ -72,26 +74,39 @@ def load_data():
     data = data.sort_values(by='USUAL SPOT', ascending=True)
     return data
 
+data = load_data()
+
+original_data = data
+
+#Data load module- END
+
+#Party ballon
 if st.button("Say Meowww😻"):
     st.write('😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽')
     st.balloons()
 
-# Create a text element and let the reader know the data is loading.
-# data_load_state = st.sidebar.text('Loading data...')
-# Load 10,000 rows of data into the dataframe.
-data = load_data()
-# Notify the reader that the data was successfully loaded.
-# data_load_state.text("Loading data completed")
 
-original_data = data
 show_case_data = data.drop(columns=['LAT', 'LON'])
+
+
+#Summary plot for counts - START
+
+fig_count = make_subplots(
+    rows=2, cols=2,
+    specs=[
+        [{"type": "indicator"}, {"type": "indicator"}],
+        [{"type": "indicator"}, {"type": "indicator"}],
+    ],
+    horizontal_spacing=0, vertical_spacing=0
+)
+
 
 total_cat_count = len(data)
 total_tnr_done = len(data[data['TNR'] == 'Yes'])
 total_tnr_pending = len(data[data['TNR'] != 'Yes'])
 total_adopted = len(data[data['ADOPTED'] == 'Yes'])
 
-fig_1.add_trace(
+fig_count.add_trace(
     go.Indicator(
         mode="number",
         value=total_cat_count,
@@ -102,7 +117,7 @@ fig_1.add_trace(
 
 )
 
-fig_1.add_trace(
+fig_count.add_trace(
     go.Indicator(
         mode="number",
         value=total_adopted,
@@ -111,7 +126,7 @@ fig_1.add_trace(
     row=1, col=2
 )
 
-fig_1.add_trace(
+fig_count.add_trace(
     go.Indicator(
         mode="number",
         value=total_tnr_done,
@@ -120,7 +135,7 @@ fig_1.add_trace(
     row=2, col=1
 )
 
-fig_1.add_trace(
+fig_count.add_trace(
     go.Indicator(
         mode="number",
         value=total_tnr_pending,
@@ -129,10 +144,11 @@ fig_1.add_trace(
     row=2, col=2
 )
 
-fig_1.update_layout(template="plotly_dark", font_family="Arial", margin=dict(l=20, r=20, t=20, b=20))
+fig_count.update_layout(template="plotly_dark", font_family="Arial", margin=dict(l=20, r=20, t=20, b=20))
+st.plotly_chart(fig_count, use_container_width=True)
+#Summary plot for counts - END
 
-st.plotly_chart(fig_1, use_container_width=True)
-
+#Gender information-START
 st.subheader("It it a girl? A boy? It's a mystery! 😵")
 st.markdown('Did you know, it is not easy to identify the gender of kitten')
 st.markdown('We sometimes have to wait for the vet visit to get an idea')
@@ -150,46 +166,10 @@ fig_gender = px.pie(original_data,
                     )
 
 st.plotly_chart(fig_gender, use_container_width=True)
+#Gender information-END
 
-midpoint = (np.average(data["LAT"]), np.average(data["LON"]))
 
-# st.write(pdk.Deck(
-#    map_style="mapbox://styles/mapbox/dark-v10",
-#    initial_view_state={
-#        "latitude": midpoint[0],
-#        "longitude": midpoint[1],
-#        "zoom": 14,
-#        "pitch": 50,
-#    },
-#    layers=[
-#        pdk.Layer(
-#            "ScatterplotLayer",
-#            data=data[['LAT', 'LON']],
-#            get_position=["LON", "LAT"],
-#            pickable=True,
-#            opacity=0.8,
-#            stroked=True,
-#            filled=True,
-#            radius_scale=6,
-#            #radius_min_pixels=8,
-#            #radius_max_pixels=100,
-#            line_width_min_pixels=1,
-#            get_radius=5,
-#            get_fill_color=[255, 200, 0],
-#            get_line_color=[0, 0, 0],
-#       ),
-#    ],
-# ))
-
-LIGHT_SETTINGS = {
-    "lightsPosition": [-0.144528, 49.739968, 8000, -3.807751, 54.104682, 8000],
-    "ambientRatio": 0.4,
-    "diffuseRatio": 0.6,
-    "specularRatio": 0.2,
-    "lightsStrength": [0.8, 0.0, 0.8, 0.0],
-    "numberOfLights": 2
-};
-
+#Show TNR related data on map and hexagon layer-START
 st.subheader("TNR Status")
 st.markdown('TNR stands for: Trap Neutered Release. Use the dropdown to see the list')
 tnr_status = st.selectbox('', ['TNR Done', 'TNR Pending', 'Unknown'])
@@ -218,9 +198,19 @@ COLOR_RANGE = [
     [254, 173, 84],
     [209, 55, 78]
 ];
+LIGHT_SETTINGS = {
+    "lightsPosition": [-0.144528, 49.739968, 8000, -3.807751, 54.104682, 8000],
+    "ambientRatio": 0.4,
+    "diffuseRatio": 0.6,
+    "specularRatio": 0.2,
+    "lightsStrength": [0.8, 0.0, 0.8, 0.0],
+    "numberOfLights": 2
+};
 
 st.subheader('Map showing the the cluster with: %s ' % tnr_status)
 st.markdown('The height of the tower indicate the count of %s ' % tnr_status)
+
+midpoint = (np.average(data["LAT"]), np.average(data["LON"]))
 
 st.write(pdk.Deck(
     map_style="mapbox://styles/mapbox/light-v10",
@@ -257,7 +247,9 @@ st.write(pdk.Deck(
     # tooltip={"html": "<b>Color Value:</b> {TNR}", "style": {"color": "white"}},
     tooltip={"text": "Elevation: {elevationValue}"},
 ))
+#Show TNR related data on map and hexagon layer-END
 
+#Bar chart for cluster START
 st.subheader('Clusterwise distribution for: %s ' % tnr_status)
 
 fig_cluster_bar = px.bar(data_cluster,
@@ -270,9 +262,9 @@ fig_cluster_bar = px.bar(data_cluster,
 
                          )
 st.plotly_chart(fig_cluster_bar, use_container_width=True)
+#Bar chart for cluster END
 
-# 'You selected: ', option
-
+#Table for cluster START
 st.subheader("List of cats in the community with other details")
 st.markdown('Saw a cat you think is not in the list? Let us know please.')
 # Feel free to search by Name, Cluster or Gender 😉""")
@@ -284,9 +276,16 @@ cluster_select = st.selectbox(
 selected_cluster = show_case_data[show_case_data['USUAL SPOT'] == cluster_select].sort_values(
     by=['USUAL SPOT'], ascending=False)
 st.write(selected_cluster)
-# ---
+#Table for cluster END
 
+#Download the data- START
+csv = original_data.to_csv(index=False)
+b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+href = f'<a href="data:file/csv;base64,{b64}">Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
+st.markdown(href, unsafe_allow_html=True)
+#Download the data- END
 
+#Help related info START
 st.subheader("How can you help? Glad you asked")
 st.markdown("""
 
@@ -297,18 +296,17 @@ st.markdown("""
 - Looking for adopting 👪? Ask us! We have kittens & cats looking for a lovely home.
 
 """)
-
-csv = original_data.to_csv(index=False)
-b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-href = f'<a href="data:file/csv;base64,{b64}">Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
-st.markdown(href, unsafe_allow_html=True)
+#Help related info END
 
 
-st.subheader('****Coming soon features!****')
-st.text("Search for a particular cat and see their photo")
-st.text("Don't see your community or cluster cat in the list? You can add it here")
+#Features info START
+st.subheader('**Coming soon features!**')
+st.markdown("Search for a particular cat and see their photo.")
+st.markdown("Don't see your community or cluster cat in the list? You can add it here.")
+#Features info END
 
-
+#Footer collage START
 image = Image.open('asset/img/collage.jpg')
 st.image(image, caption='',
          use_column_width=True, clamp=True)
+#Footer collage END
