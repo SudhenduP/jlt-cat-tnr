@@ -150,8 +150,8 @@ st.plotly_chart(fig_count, use_container_width=True)
 
 #Gender information-START
 st.subheader("It it a girl? A boy? It's a mystery! 😵")
-st.markdown('Did you know, it is not easy to identify the gender of kitten')
-st.markdown('We sometimes have to wait for the vet visit to get an idea')
+st.markdown('Did you know, it is not easy to identify the gender of kitten. '
+            'We sometimes have to wait for the vet visit to get an idea')
 
 fig_gender = px.pie(original_data,
                     # values='GENDER',
