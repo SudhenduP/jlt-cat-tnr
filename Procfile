@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run src/JLT-CATS.py
+web: sh setup.sh && streamlit run src/JLT-CATS_new.py
