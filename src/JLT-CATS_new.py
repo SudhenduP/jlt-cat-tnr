@@ -74,6 +74,13 @@ def load_data():
     # data.dropna(subset=['longitude', 'latitude'], inplace=True)
     # lowercase = lambda x: str(x).lower()
     #  data.rename(lowercase, axis='columns', inplace=True)
+    data_cat_details['GENDER'].fillna('To be confirmed', inplace=True)
+    data_cat_details['NAME'].fillna('NA', inplace=True)
+    data_cat_details['ALSO SPOTTED IN'].fillna('-', inplace=True)
+    data_cat_details['LAST UPDATED'].fillna('-', inplace=True)
+    data_cat_details['REMARKS'].fillna('-', inplace=True)
+    data_cat_details['MAIN COLOR'].fillna('Unknown', inplace=True)
+
     data_cat_details = data_cat_details.fillna('No')
     data_cat_details = pd.merge(left=data_cat_details, right=data_cluster_geo, how='left', left_on='USUAL SPOT', right_on='Cluster')
     data_cat_details = data_cat_details.sort_values(by='USUAL SPOT', ascending=True)
@@ -109,7 +116,7 @@ fig_count = make_subplots(
 total_cat_count = len(data)
 total_tnr_done = len(data[data['TNR'] == 'Yes'])
 total_tnr_pending = len(data[data['TNR'] != 'Yes'])
-total_adopted = len(data[data['ADOPTED'] == 'Yes'])
+total_adopted = len(data[(data['ADOPTED'] == 'ADOPTED') | (data['ADOPTED'] == 'FOSTER HOME')])
 
 fig_count.add_trace(
     go.Indicator(
@@ -345,14 +352,18 @@ possible_cat = data[(data['USUAL SPOT'] == lost_found_cluster_select) & (data['M
 
 if len(possible_cat) == 0:
     possible_cat='No cat with matching descrpition found. Please check the photos'
+
+possible_cat = possible_cat.drop(columns=['CATID','PHOTO ID', 'LON', 'LAT', 'Cluster'])
+
 st.write((possible_cat))
 
 st.subheader('Does the cat look like any of the below?')
-st.markdown('If you are not sure, dont hesitate to post on our facebook group or whatsapp'
+st.markdown('If you are not sure, dont hesitate to post on our facebook group or whatsapp '
             'any of the below contact to get some help')
 
 for img, row in possible_cat.iterrows():
     if os.path.isfile('asset/img/cats/'+row['NAME'] + '.jpg'):
+        st.markdown('Name: ' + row['NAME'] + '-' + row['REMARKS'])
         cat_img = Image.open(('asset/img/cats/'+row['NAME'] + '.jpg'))
         st.image(cat_img, caption=row['NAME'] + '-' + row['REMARKS'],
                  use_column_width=True)
