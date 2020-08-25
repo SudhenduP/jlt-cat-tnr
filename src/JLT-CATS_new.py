@@ -9,8 +9,7 @@ import plotly.express as px
 from PIL import Image
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-import requests
-from io import BytesIO
+
 import os
 #set page level setting
 
@@ -20,6 +19,7 @@ st.beta_set_page_config(page_title='JLT-CAT-A-LOG', page_icon="🧊",
 
 #sidebar configuration- START
 st.sidebar.image('asset/img/leo.jpg')
+st.sidebar.markdown(f"<a href='#linkto_Search'>Found a Cat? Click here to search</a>", unsafe_allow_html=True)
 
 st.sidebar.markdown(
     """
@@ -50,7 +50,7 @@ Until then, check our CAT-O-LOG 😄😄😄😄😄
 
 #variables
 
-DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
+#DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
 banner = Image.open('asset/img/banner.png')
 DATA_LAT_LON_URL =  ('data/Cluster-GeoData.csv')
 DATA_URL_NEW= ('data/JLT_CatLogs.xlsx')
@@ -62,7 +62,6 @@ st.image(banner, caption='',
 #Main title
 st.markdown("<h2 style='text-align: center; color: black;'>Hello! How are you today? This tiny site keeps a log of our JLT community cats 😻</h2>", unsafe_allow_html=True)
 
-st.sidebar.markdown(f"<a href='#linkto_Search'>Found a Cat? Click here to search</a>", unsafe_allow_html=True)
 
 #Data load module- START
 
@@ -355,6 +354,6 @@ st.markdown('If you are not sure, dont hesitate to post on our facebook group or
 for img, row in possible_cat.iterrows():
     if os.path.isfile('asset/img/cats/'+row['NAME'] + '.jpg'):
         cat_img = Image.open(('asset/img/cats/'+row['NAME'] + '.jpg'))
-        st.image(cat_img, caption=row['NAME'],
+        st.image(cat_img, caption=row['NAME'] + '-' + row['REMARKS'],
                  use_column_width=True)
 
