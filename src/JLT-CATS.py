@@ -52,7 +52,8 @@ Until then, check our CAT-O-LOG 😄😄😄😄😄
 
 DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
 banner = Image.open('asset/img/banner.png')
-
+DATA_LAT_LON_URL =  ('data/Cluster-GeoData.csv')
+DATA_URL_NEW= ('data/JLT_CatLogs.xlsx')
 #Banner
 st.image(banner, caption='',
          use_column_width=True)
