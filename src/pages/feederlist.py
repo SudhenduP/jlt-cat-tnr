@@ -8,11 +8,6 @@ DATA_LAT_LON_URL = ('data/Cluster-GeoData.csv')
 ICON_URL = "https://raw.githubusercontent.com/SudhenduP/temproraryfiles/master/person.png"
 
 
-st.markdown(
-        "<h2 style='text-align: center; color: black;'>Hello! How are you today? This tiny site keeps a log of our JLT community cats 😻</h2>",
-        unsafe_allow_html=True)
-
-
 icon_data = {
     # Icon from Wikimedia, used the Creative Commons Attribution-Share Alike 3.0
     # Unported, 2.5 Generic, 2.0 Generic and 1.0 Generic licenses
