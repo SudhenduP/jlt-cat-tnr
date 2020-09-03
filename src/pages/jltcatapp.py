@@ -15,6 +15,7 @@ from plotly.subplots import make_subplots
 import search
 import helpus
 import feederlist
+import reportacat
 
 # set page level setting
 
@@ -42,7 +43,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.sidebar.image('asset/img/leo.jpg')
 #st.sidebar.markdown(f"<a href='#linkto_Search'>Found a Cat? Click here to search</a>", unsafe_allow_html=True)
-menus = ['Home', 'Search For Cats', 'How can you Help', 'Volunteers', 'Contact Us']
+menus = ['Home', 'Search For Cats', 'How can you Help', 'Volunteers', 'Report A Cat']
 # st.sidebar.header('MENU')
 menu = st.sidebar.radio('', menus)
 st.sidebar.markdown(
@@ -61,7 +62,7 @@ Some good folks 🙋 🙋‍♂️ at JLT regularly take care of the community c
 Part of their work is to make sure the cats are well fed 🍲, have plenty of water (Dubai summer☀️) 
 and get all medical attention 👨‍⚕️.
 
-If you would like to help in anyway, please get in touch with: 9715xxxxx
+If you would like to help in anyway, please get in touch with: 971526500102
 
 Join us on Facebook [CatLoversOfJLT](https://www.facebook.com/groups/CatLoversOfJLT/) 
 
@@ -425,3 +426,5 @@ elif menu == 'How can you Help':
 elif menu == 'Home':
     summary_count(data)
     tnr_count(data)
+elif menu =='Report A Cat':
+    reportacat.report_cat()
