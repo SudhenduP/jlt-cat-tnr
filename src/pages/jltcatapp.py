@@ -22,7 +22,7 @@ import reportacat
 
 st.beta_set_page_config(page_title='JLT-CAT-A-LOG', page_icon="🧊",
                         layout="centered",
-                        initial_sidebar_state="expanded", )
+                        initial_sidebar_state="auto", )
 
 # hide the hamburger
 hide_streamlit_style = """
