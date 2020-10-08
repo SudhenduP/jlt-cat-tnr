@@ -350,11 +350,11 @@ def tnr_count(data):
     selected_cluster = show_case_data[show_case_data['USUAL SPOT'] == cluster_select].sort_values(
         by=['USUAL SPOT'], ascending=False)
     st.write(selected_cluster)
-    st.subheader("Explore More!")
+    st.subheader("Explore More! Click on the sidebar > 👈")
     st.markdown('You can search for cats, lookup volunteers name, fosters, feed and do so many thing!!! Click below.')
-    menus_internal = ['Search For Cats', 'How can you Help', 'Volunteers']  # 'Report A Cat']
+    #menus_internal = ['Search For Cats', 'How can you Help', 'Volunteers']  # 'Report A Cat']
     # st.sidebar.header('MENU')
-    menu = st.radio('', menus_internal, key=123)
+    #menu = st.radio('', menus_internal, key=123)
 
     # Table for cluster END
     st.markdown("<h2 style='text-align: center; color: #196F3D;'>Site is dedicated to our beloved Cluster G cat George."

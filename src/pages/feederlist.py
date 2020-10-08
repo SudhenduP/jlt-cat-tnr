@@ -41,7 +41,10 @@ def show_feeder_data():
     feeder_details= load_feeder_data()
     feeder_details_plain= feeder_details.drop(columns=['Telephone No.', 'LAT', 'LON'])
 
-    st.subheader("List of feeder in the community with other details")
+    st.markdown(
+        "<h1 style='text-align: center; color: grey;'>List of feeder in the community with other details",
+        unsafe_allow_html=True)
+    #st.subheader("List of feeder in the community with other details")
     cluster_select = st.selectbox(
         'Select the Cluster you want to view?',
         feeder_details_plain['Cluster'].unique())
