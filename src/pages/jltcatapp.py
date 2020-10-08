@@ -1,3 +1,4 @@
+
 # import library- will clean later
 import base64
 import importlib
@@ -15,7 +16,7 @@ from plotly.subplots import make_subplots
 import search
 import helpus
 import feederlist
-import reportacat
+#import reportacat
 
 # set page level setting
 
@@ -40,14 +41,27 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
 # sidebar configuration- START
+#st.markdown(
+#    """
+#<style>
+#.sidebar .sidebar-content {
+#    background-image: linear-gradient(#00000,#00000);
+#    color: white;
+#}
+#</style>
+#""",
+#    unsafe_allow_html=True,
+#)
+
 
 st.sidebar.image('asset/img/leo.jpg')
 #st.sidebar.markdown(f"<a href='#linkto_Search'>Found a Cat? Click here to search</a>", unsafe_allow_html=True)
-menus = ['Home', 'Search For Cats', 'How can you Help', 'Volunteers', 'Report A Cat']
+menus = ['Home', 'Search For Cats', 'How can you Help', 'Volunteers']# 'Report A Cat']
 # st.sidebar.header('MENU')
 menu = st.sidebar.radio('', menus)
 st.sidebar.markdown(
     """
+
 
 **This is Leo (aka Fergus). One of our JLT kitten, now turned into a handsome boy,
 loving and  living with a beautiful family.**
@@ -62,7 +76,7 @@ Some good folks 🙋 🙋‍♂️ at JLT regularly take care of the community c
 Part of their work is to make sure the cats are well fed 🍲, have plenty of water (Dubai summer☀️) 
 and get all medical attention 👨‍⚕️.
 
-If you would like to help in anyway, please get in touch with: 971526500102
+If you would like to help in anyway, please get in touch with: +971 52 6500 102 
 
 Join us on Facebook [CatLoversOfJLT](https://www.facebook.com/groups/CatLoversOfJLT/) 
 
@@ -85,11 +99,14 @@ st.image(banner, caption='',
          use_column_width=True)
 
 st.markdown(
-        "<h2 style='text-align: center; color: black;'>Hello! How are you today? This tiny site keeps a log of our JLT community cats 😻</h2>",
+        "<h1 style='text-align: center; color: purple;'>Hello! How are you today? ",
+        unsafe_allow_html=True)
+st.markdown(
+        "<h2 style='text-align: center; color: black;'>Over here we keep the log of all our JLT community cats 😻</h2>",
         unsafe_allow_html=True)
 
 if st.button("With more than 300+ cats, we almost have a cat-birthday everyday! Click for party!😻"):
-        st.write('😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽')
+        #st.write('😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽 😹 🙀 😾 😿 😻 😺 😸 😽')
         st.balloons()
 
 
@@ -110,7 +127,7 @@ def load_data():
     data_cat_details['LAST UPDATED'].fillna('-', inplace=True)
     data_cat_details['REMARKS'].fillna('-', inplace=True)
     data_cat_details['MAIN COLOR'].fillna('Unknown', inplace=True)
-
+    data_cat_details.drop(columns=['ALSO SPOTTED IN'], inplace=True)
     data_cat_details = data_cat_details.fillna('No')
     data_cat_details = pd.merge(left=data_cat_details, right=data_cluster_geo, how='left', left_on='USUAL SPOT',
                                 right_on='Cluster')
@@ -147,7 +164,7 @@ def summary_count(data):
     total_cat_count = len(data)
     total_tnr_done = len(data[data['TNR'] == 'Yes'])
     total_tnr_pending = len(data[data['TNR'] != 'Yes'])
-    total_adopted = len(data[(data['ADOPTED'] == 'ADOPTED') | (data['ADOPTED'] == 'FOSTER HOME')])
+    total_adopted = len(data[(data['ADOPTED'] == 'ADOPTED') | (data['ADOPTED'] == 'FOSTER HOME') | (data['ADOPTED'] == 'Yes')])
 
     fig_count.add_trace(
         go.Indicator(
@@ -220,7 +237,10 @@ def gender_count(data):
 # Show TNR related data on map and hexagon layer-START
 
 def tnr_count(data):
-    st.subheader("TNR Status")
+    #st.subheader("TNR Status")
+    st.markdown(
+        "<h1 style='text-align: center; color: grey;'>TNR Status",
+        unsafe_allow_html=True)
     st.markdown('TNR stands for: Trap Neutered Release. Use the dropdown to see the list')
     tnr_status = st.selectbox('', ['TNR Done', 'TNR Pending', 'Unknown'])
 
@@ -316,8 +336,12 @@ def tnr_count(data):
     # Bar chart for cluster END
 
     # Table for cluster START
-    st.subheader("List of cats in the community with other details")
-    st.markdown('Saw a cat you think is not in the list? Let us know please.')
+    st.markdown(
+        "<h1 style='text-align: center; color: grey;'>List of cats in the community with other details",
+        unsafe_allow_html=True)
+
+    #st.subheader("List of cats in the community with other details")
+    st.markdown('Saw a cat you think is not in the list? You can look for photos here: ')
     # Feel free to search by Name, Cluster or Gender 😉""")
     cluster_select = st.selectbox(
         'Select the Cluster you want to view?',
@@ -326,9 +350,16 @@ def tnr_count(data):
     selected_cluster = show_case_data[show_case_data['USUAL SPOT'] == cluster_select].sort_values(
         by=['USUAL SPOT'], ascending=False)
     st.write(selected_cluster)
+    st.subheader("Explore More!")
+    st.markdown('You can search for cats, lookup volunteers name, fosters, feed and do so many thing!!! Click below.')
+    menus_internal = ['Search For Cats', 'How can you Help', 'Volunteers']  # 'Report A Cat']
+    # st.sidebar.header('MENU')
+    menu = st.radio('', menus_internal, key=123)
 
+    # Table for cluster END
+    st.markdown("<h2 style='text-align: center; color: #196F3D;'>Site is dedicated to our beloved Cluster G cat George."
+                "He left us too soon!</h1>", unsafe_allow_html=True)
 
-# Table for cluster END
 
 # Download the data- START
 
@@ -426,5 +457,5 @@ elif menu == 'How can you Help':
 elif menu == 'Home':
     summary_count(data)
     tnr_count(data)
-elif menu =='Report A Cat':
-    reportacat.report_cat()
+#elif menu =='Report A Cat':
+#    reportacat.report_cat()

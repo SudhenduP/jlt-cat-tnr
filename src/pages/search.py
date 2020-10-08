@@ -9,16 +9,20 @@ def search_page(data):
 
     # Found and Search Section
     # st.markdown(f"<div id='linkto_{'Search'}'></div>", unsafe_allow_html=True)
-    st.subheader('Found or Find a Cat')
+    st.markdown(
+        "<h1 style='text-align: center; color: grey;'>Welcome! Search for a Cat",
+        unsafe_allow_html=True)
+
+   # st.subheader('Welcome! Search for a Cat')
     lost_found_cluster_select = st.selectbox(
-        'Which cluster did you find the cat?',
+        'Which cluster did you see the cat?',
         data['USUAL SPOT'].unique())
 
     possible_cat = data[(data['USUAL SPOT'] == lost_found_cluster_select)]
 
     lost_found_color_select = st.selectbox(
         'What is the color of the cat you see? '
-        'Dont worry about the detail, just select any of the major color?',
+        'Dont worry about the detail, just select any of the major color!',
         possible_cat['MAIN COLOR'].unique())
 
     possible_cat = data[
@@ -33,7 +37,7 @@ def search_page(data):
 
     st.write((possible_cat))
 
-    st.subheader('Does the cat look like any of the below?')
+    st.subheader('Give us moment! We are looking for the photos 😻')
     st.markdown('If you are not sure, dont hesitate to post on our facebook group or whatsapp '
                 'any of the below contact to get some help')
     for img, row in possible_cat.iterrows():
@@ -42,6 +46,7 @@ def search_page(data):
        # st.write('/sset/img/cluster-wise-photos/' + row['USUAL SPOT'].split(' ')[1] + '/'+ row['NAME'] + '.jpg')
         if os.path.isfile('asset/img/cluster-wise-photos/' + row['USUAL SPOT'].split(' ')[1] + '/'+ row['NAME'] + '.jpg'):
         #    st.write('asset/img/cluster-wise-photos/' + row['USUAL SPOT'].split(' ')[1] + '/' + row['NAME'] + '.jpg')
+
 
             st.markdown('Name: ' + row['NAME'] + '-' + row['REMARKS'])
             cat_img = Image.open(('asset/img/cluster-wise-photos/' + row['USUAL SPOT'].split(' ')[1] + '/' + row['NAME'] + '.jpg'))
