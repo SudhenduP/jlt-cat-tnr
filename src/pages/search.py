@@ -33,7 +33,7 @@ def search_page(data):
     if len(possible_cat) == 0:
         possible_cat = 'No cat with matching descrpition found. Please check the photos'
 
-    possible_cat = possible_cat.drop(columns=['CATID', 'PHOTO ID', 'LON', 'LAT', 'Cluster'])
+    possible_cat = possible_cat.drop(columns=['CATID', 'PHOTO ID', 'LON', 'LAT', 'Cluster', 'TNR VET', 'TNR DATE', 'LAST UPDATED','ADOPTED','LAST SEEN','TNR BY'])
 
     st.write((possible_cat))
 
