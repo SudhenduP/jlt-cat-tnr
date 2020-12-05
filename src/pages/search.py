@@ -13,6 +13,7 @@ def search_page(data):
         "<h1 style='text-align: center; color: grey;'>Welcome! Search for a Cat",
         unsafe_allow_html=True)
 
+    st.subheader('Saw a cat in JLT?  Want to make sure we have them in our list? Please use this search: 😻')
    # st.subheader('Welcome! Search for a Cat')
     lost_found_cluster_select = st.selectbox(
         'Which cluster did you see the cat?',
@@ -37,9 +38,9 @@ def search_page(data):
 
     st.write((possible_cat))
 
-    st.subheader('Give us moment! We are looking for the photos 😻')
-    st.markdown('If you are not sure, dont hesitate to post on our facebook group or whatsapp '
-                'any of the below contact to get some help')
+    st.subheader('Give us moment. The details will appear below 😻')
+    st.markdown('If you are not sure, dont hesitate to post on our facebook group '
+                'to get some help!')
     for img, row in possible_cat.iterrows():
 
        # st.write(os.getcwd())

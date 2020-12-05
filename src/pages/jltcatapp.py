@@ -54,7 +54,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 #)
 
 
-st.sidebar.image('asset/img/leo.jpg')
+st.sidebar.image('asset/img/logo2.png', width=300)
 #st.sidebar.markdown(f"<a href='#linkto_Search'>Found a Cat? Click here to search</a>", unsafe_allow_html=True)
 menus = ['Home', 'Search For Cats', 'How can you Help', 'Volunteers']# 'Report A Cat']
 # st.sidebar.header('MENU')
@@ -63,23 +63,20 @@ st.sidebar.markdown(
     """
 
 
-**This is Leo (aka Fergus). One of our JLT kitten, now turned into a handsome boy,
-loving and  living with a beautiful family.**
+**Welcome! This tiny website keeps a log of our cat-buddies 😻 in JLT.**
 
-Welcome! This tiny website keeps a log of our cat-buddies 😻 in JLT.
-
-JLT has many cats in the community, big and small, ginger and tabby, fierce and gentle, senior and kittens.
+JLT, DMCC is beautiful community with amazing people and purrfect cats! We have big and small, ginger and tabby, fierce and gentle, senior and kittens.
+You ask for it, you got it!
 
 **And we love all of them 😀**
 
 Some good folks 🙋 🙋‍♂️ at JLT regularly take care of the community cats. 
 Part of their work is to make sure the cats are well fed 🍲, have plenty of water (Dubai summer☀️) 
-and get all medical attention 👨‍⚕️.
+and get all medical attention 👨‍⚕️. Oh and most important of all, TNR!
 
 If you would like to help in anyway, please get in touch with: +971 52 6500 102 
 
 Join us on Facebook [CatLoversOfJLT](https://www.facebook.com/groups/CatLoversOfJLT/) 
-
 
 Until then, check our CAT-O-LOG 😄😄😄😄😄
 
@@ -91,7 +88,7 @@ Until then, check our CAT-O-LOG 😄😄😄😄😄
 # variables
 
 # DATA_URL = ('data/JLT CAT-A-LOG BY CLUSTER.csv')
-banner = Image.open('asset/img/banner.png')
+banner = Image.open('asset/img/banner2.png')
 DATA_LAT_LON_URL = ('data/Cluster-GeoData.csv')
 DATA_URL_NEW = ('data/JLT_CatLogs.xlsx')
 # Banner
@@ -99,7 +96,7 @@ st.image(banner, caption='',
          use_column_width=True)
 
 st.markdown(
-        "<h1 style='text-align: center; color: purple;'>Hello! How are you today? ",
+        "<h1 style='text-align: center; color: #3269a8;'>Hello! How are you today? ",
         unsafe_allow_html=True)
 st.markdown(
         "<h2 style='text-align: center; color: black;'>Over here we keep the log of all our JLT community cats 😻</h2>",
@@ -350,12 +347,11 @@ def tnr_count(data):
     selected_cluster = show_case_data[show_case_data['USUAL SPOT'] == cluster_select].sort_values(
         by=['USUAL SPOT'], ascending=False)
     st.write(selected_cluster)
-    st.subheader("Explore More! Click on the sidebar > 👈")
-    st.markdown('You can search for cats, lookup volunteers name, fosters, feed and do so many thing!!! Click below.')
+    st.subheader("Explore More! Click on the sidebar >>> 👈")
+    st.markdown('You can search for cats, adopt one, lookup volunteers, fosters, feed and do so many thing!!!')
     #menus_internal = ['Search For Cats', 'How can you Help', 'Volunteers']  # 'Report A Cat']
     # st.sidebar.header('MENU')
     #menu = st.radio('', menus_internal, key=123)
-
     # Table for cluster END
     st.markdown("<h2 style='text-align: center; color: #196F3D;'>Site is dedicated to our beloved Cluster G cat George."
                 "He left us too soon!</h1>", unsafe_allow_html=True)
